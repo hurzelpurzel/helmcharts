@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose --file docker-compose.yaml convert
+    kompose.version: 1.34.0 (cbf2835db)
+  labels:
+    io.kompose.service: scoold
+  name: scoold
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: scoold
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose --file docker-compose.yaml convert
+        kompose.version: 1.34.0 (cbf2835db)
+      labels:
+        io.kompose.service: scoold
+    spec:
+      containers:
+        - env:
+            - name: BOOT_SLEEP
+              value: "5"
+            - name: JAVA_OPTS
+              value: -Dconfig.file=/scoold-pro/application.conf -Dscoold.autoinit.para_config_file=/scoold-pro/para-application.conf -Dscoold.para_endpoint=http://para:8080
+          image: 374874639893.dkr.ecr.eu-west-1.amazonaws.com/scoold-pro:latest_stable
+          name: scoold
+          ports:
+            - containerPort: 8000
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /scoold-pro/uploads
+              name: scooldUploads
+            - mountPath: /scoold-pro/application.conf
+              name: scoold-claim1
+            - mountPath: /scoold-pro/para-application.conf
+              name: scoold-claim2
+      restartPolicy: Always
+      volumes:
+        - name: scooldUploads
+          persistentVolumeClaim:
+            claimName: scooldUploads
+        - name: scoold-claim1
+          persistentVolumeClaim:
+            claimName: scoold-claim1
+        - name: scoold-claim2
+          persistentVolumeClaim:
+            claimName: scoold-claim2

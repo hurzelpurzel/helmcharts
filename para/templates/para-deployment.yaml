@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose --file docker-compose.yaml convert
+    kompose.version: 1.34.0 (cbf2835db)
+  labels:
+    io.kompose.service: para
+  name: para
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: para
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose --file docker-compose.yaml convert
+        kompose.version: 1.34.0 (cbf2835db)
+      labels:
+        io.kompose.service: para
+    spec:
+      containers:
+        - env:
+            - name: JAVA_OPTS
+              value: -Dconfig.file=/para/application.conf -Dloader.path=/para/lib
+          image: erudikaltd/para:latest_stable
+          name: para
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /para/data
+              name: paraData
+            - mountPath: /para/lib
+              name: paraLib
+            - mountPath: /para/application.conf
+              name: para-claim2
+      restartPolicy: Always
+      volumes:
+        - name: paraData
+          persistentVolumeClaim:
+            claimName: paraData
+        - name: paraLib
+          persistentVolumeClaim:
+            claimName: paraLib
+        - name: para-claim2
+          persistentVolumeClaim:
+            claimName: para-claim2
