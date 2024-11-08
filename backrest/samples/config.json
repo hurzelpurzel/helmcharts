@@ -8,8 +8,8 @@
         "uri": "s3://storage.googleapis.com/hurzelpurzel/backups",
         "password": "hurzelpurzel",
         "env": [
-          "AWS_ACCESS_KEY_ID=GOOG1E2MQGC43KQ355GZRM5NOUKRTZSG6XOJHW6DBEJJKFVDXF4XWWGJ6OYJV",
-          "AWS_SECRET_ACCESS_KEY=80LmQPfBTnPNoanCEN8UbRDs+coMKpD12kAj4OVH"
+          "AWS_ACCESS_KEY_ID=tbd",
+          "AWS_SECRET_ACCESS_KEY=tbd"
         ],
         "prunePolicy": {
           "schedule": {
