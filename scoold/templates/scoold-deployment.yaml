@@ -27,27 +27,28 @@ spec:
             - name: BOOT_SLEEP
               value: "5"
             - name: JAVA_OPTS
-              value: -Dconfig.file=/scoold-pro/application.conf -Dscoold.autoinit.para_config_file=/scoold-pro/para-application.conf -Dscoold.para_endpoint=http://para:8080
-          image: 374874639893.dkr.ecr.eu-west-1.amazonaws.com/scoold-pro:latest_stable
+              value: "-Dconfig.file=/config/application.conf -Dscoold.port=8000 -Dscoold.para_endpoint=http://para:8080"
+          image: erudikaltd/scoold:latest
           name: scoold
           ports:
             - containerPort: 8000
               protocol: TCP
           volumeMounts:
-            - mountPath: /scoold-pro/uploads
-              name: scooldUploads
-            - mountPath: /scoold-pro/application.conf
+            - mountPath: /scoold/uploads
+              name: scoolduploads
+            - mountPath: /scoold/application.conf
               name: scoold-claim1
-            - mountPath: /scoold-pro/para-application.conf
-              name: scoold-claim2
+            - mountPath: /config
+              name: config
       restartPolicy: Always
       volumes:
-        - name: scooldUploads
+        - name: scoolduploads
           persistentVolumeClaim:
-            claimName: scooldUploads
+            claimName: scoold-uploads
         - name: scoold-claim1
           persistentVolumeClaim:
             claimName: scoold-claim1
-        - name: scoold-claim2
-          persistentVolumeClaim:
-            claimName: scoold-claim2
+        - name: config
+          secret:
+            secretName: scoold-config
+        

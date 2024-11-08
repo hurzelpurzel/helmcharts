@@ -1,0 +1,73 @@
+{
+    "modno": 2,
+    "version": 3,
+    "instance": "backres",
+    "repos": [
+      {
+        "id": "backups",
+        "uri": "s3://storage.googleapis.com/hurzelpurzel/backups",
+        "password": "hurzelpurzel",
+        "env": [
+          "AWS_ACCESS_KEY_ID=GOOG1E2MQGC43KQ355GZRM5NOUKRTZSG6XOJHW6DBEJJKFVDXF4XWWGJ6OYJV",
+          "AWS_SECRET_ACCESS_KEY=80LmQPfBTnPNoanCEN8UbRDs+coMKpD12kAj4OVH"
+        ],
+        "prunePolicy": {
+          "schedule": {
+            "disabled": true,
+            "clock": "CLOCK_LAST_RUN_TIME"
+          },
+          "maxUnusedPercent": 10
+        },
+        "checkPolicy": {
+          "schedule": {},
+          "readDataSubsetPercent": 0
+        },
+        "commandPrefix": {}
+      }
+    ],
+    "auth": {
+      "disabled": true,
+      "users": [
+        {
+          "name": "ludger",
+          "passwordBcrypt": "JDJhJDEwJFU5cXNEUjY4NmVCTkR6RFhRbWdIRHVUMVdaYXp3MFZMVUdrSm1TMTJPR1l1VmJ3a0Fsa3hP"
+        }
+      ]
+    }
+  }backrest-d559fcc7c-2l9hh:/config# cat config.json
+  {
+    "modno": 4,
+    "version": 3,
+    "instance": "backres",
+    "repos": [
+      {
+        "id": "backups",
+        "uri": "@tbd e.g s3://storage.googleapis.com/hurzelpurzel/backups", 
+        "password": "hurzelpurzel",
+        "env": [
+          "AWS_ACCESS_KEY_ID=@tbd",
+          "AWS_SECRET_ACCESS_KEY=@tbd"
+        ],
+        "prunePolicy": {
+          "schedule": {
+            "disabled": true,
+            "clock": "CLOCK_LAST_RUN_TIME"
+          },
+          "maxUnusedPercent": 10
+        },
+        "checkPolicy": {
+          "schedule": {},
+          "readDataSubsetPercent": 0
+        },
+        "commandPrefix": {}
+      }
+    ],
+    "auth": {
+      "users": [
+        {
+          "name": "admin",
+          "passwordBcrypt": "JDJhJDEwJG0zVkF4eVg4QkFJN3I2aEYuZHVObGV3VWs5RUxtZDR5d0F1YzlHaUZrbGR6Wmh0UHZkbi5t"
+        }
+      ]
+    }
+  }

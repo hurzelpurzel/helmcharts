@@ -1,0 +1,8 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: para-config
+type: Opaque
+data:
+{{ (.Files.Glob "conf/*").AsSecrets | indent 2 }}

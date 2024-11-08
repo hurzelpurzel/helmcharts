@@ -2,8 +2,8 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   labels:
-    io.kompose.service: paraLib
-  name: paraLib
+    io.kompose.service: paralib
+  name: paralib
 spec:
   accessModes:
     - ReadWriteOnce

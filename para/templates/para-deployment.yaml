@@ -25,7 +25,7 @@ spec:
       containers:
         - env:
             - name: JAVA_OPTS
-              value: -Dconfig.file=/para/application.conf -Dloader.path=/para/lib
+              value: "-Dconfig.file=/config/application.conf -Dloader.path=/para/lib -Dpara.port=8080"
           image: erudikaltd/para:latest_stable
           name: para
           ports:
@@ -33,19 +33,20 @@ spec:
               protocol: TCP
           volumeMounts:
             - mountPath: /para/data
-              name: paraData
+              name: paradata
             - mountPath: /para/lib
-              name: paraLib
-            - mountPath: /para/application.conf
-              name: para-claim2
+              name: paralib
+            - mountPath: /config
+              name: config
       restartPolicy: Always
       volumes:
-        - name: paraData
+        - name: paradata
           persistentVolumeClaim:
-            claimName: paraData
-        - name: paraLib
+            claimName: paradata
+        - name: paralib
           persistentVolumeClaim:
-            claimName: paraLib
-        - name: para-claim2
-          persistentVolumeClaim:
-            claimName: para-claim2
+            claimName: paralib
+        - name: config
+          secret:
+            secretName: para-config
+         

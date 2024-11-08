@@ -1,0 +1,39 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: br-data-pvc
+spec:
+  storageClassName: {{ .Values.pvcs.storageClassName }}
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    
+    requests:
+      storage: 100Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: br-config-pvc
+spec:
+  storageClassName: {{ .Values.pvcs.storageClassName }}
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    
+    requests:
+      storage: 10Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: br-userdata-pvc
+spec:
+  storageClassName: {{ .Values.pvcs.storageClassName }}
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    
+    requests:
+      storage: 100Mi

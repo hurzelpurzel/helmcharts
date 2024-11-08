@@ -1,0 +1,6 @@
+apiVersion: v2
+appVersion: 1.16.0
+description: A Helm chart for https://github.com/garethgeorge/backrest
+name: backrest
+type: application
+version: 0.1.0
