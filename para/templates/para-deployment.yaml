@@ -22,6 +22,13 @@ spec:
       labels:
         io.kompose.service: para
     spec:
+      initContainers:
+       - name: init
+         image:   ghcr.io/hurzelpurzel/images/para-cli:main@sha256:cfd98e93f1fffe596a4aa4a45ca67795fe04c8fb18de82e8baff02e6d58d74d3
+         command: ['sh', '-c', 'para-cli new-app scoold --name Scoold'] 
+         envFrom:
+           - secretRef:
+               name: para-env
       containers:
         - env:
             - name: JAVA_OPTS
@@ -49,4 +56,4 @@ spec:
         - name: config
           secret:
             secretName: para-config
-         
+            defaultMode: 0700
