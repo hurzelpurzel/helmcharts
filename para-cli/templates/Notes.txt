@@ -1,0 +1,3 @@
+Try
+
+para-cli new-app "scoold" --name "Scoold"
