@@ -1,6 +1,34 @@
 apiVersion: v2
-appVersion: 1.16.0
-description: A Helm chart for https://github.com/garethgeorge/backrest
 name: backrest
+home: https://github.com/garethgeorge/backrest
+sources:
+  - https://github.com/garethgeorge/backrest
+description: A Helm chart for garethgeorge/backrest, a web UI and built-in automation tool for restic backups
 type: application
-version: 0.1.0
+version: 0.2.0
+appVersion: 1.16.0
+keywords:
+  - backup
+  - restic
+  - backrest
+  - b2
+maintainers:
+  - name: Ludger Pottmeier
+    email: ludger.pottmeier@gmail.com
+annotations:
+  licenses: Apache-2.0
+  artifacthub.io/category: storage
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/maintainers: |
+    - name: Ludger Pottmeier
+      email: ludger.pottmeier@gmail.com
+  artifacthub.io/links: |
+    - name: Backrest
+      url: https://github.com/garethgeorge/backrest
+    - name: Support
+      url: https://github.com/hurzelpurzel/helmcharts/issues
+  artifacthub.io/changes: |
+    - kind: added
+      description: Initial release of the backrest Helm chart
+    - kind: changed
+      description: Add metadata for Artifact Hub publication
