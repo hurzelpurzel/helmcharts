@@ -1,0 +1,15 @@
+# Helm
+*.tgz
+*.tmp
+
+# Local test values / secrets
+values-local.yaml
+*.local.yaml
+
+# Editors & IDEs
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
