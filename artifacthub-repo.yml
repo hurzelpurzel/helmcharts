@@ -4,6 +4,7 @@
 #   control panel to enable the Verified Publisher flag (one ID per repository
 #   on Artifact Hub; each OCI chart below is a separate repository).
 #
+
 owners:
-  - name: Ludger Pottmeier
+  - name: hurzelpurzel
     email: ludger.pottmeier@gmail.com
