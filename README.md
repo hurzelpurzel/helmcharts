@@ -6,10 +6,10 @@ Independent Helm v2 application charts, one per top-level directory. No chart de
 
 | Chart | App | Description | Artifact Hub |
 |-------|-----|-------------|-------------|
-| [apprise](apprise/) | [caronc/apprise](https://github.com/caronc/apprise) | Notification web service pushing to 1000+ services, with optional web UI | [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/apprise)](https://artifacthub.io/packages/helm/hurzelpurzel/apprise) |
-| [backrest](backrest/) | [garethgeorge/backrest](https://github.com/garethgeorge/backrest) | Web UI and automation for restic backups (Backblaze B2, S3, local, ...) | [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/backrest)](https://artifacthub.io/packages/helm/hurzelpurzel/backrest) |
-| [db2rest](db2rest/) | [kdhrubo/db2rest](https://db2rest.com) | Universal REST read/write API for any SQL database with OpenAPI support | [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/db2rest)](https://artifacthub.io/packages/helm/hurzelpurzel/db2rest) |
-| [simple-http-logger](simple-http-logger/) | [cycodelabs/simple-http-logger](https://github.com/cycodelabs/simple-http-logger) | Minimal HTTP request logger | [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/simple-http-logger)](https://artifacthub.io/packages/helm/hurzelpurzel/simple-http-logger) |
+| [apprise](apprise/) | [caronc/apprise](https://github.com/caronc/apprise) | Notification web service pushing to 1000+ services, with optional web UI | [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/apprise)](https://artifacthub.io/packages/search?repo=apprise) |
+| [backrest](backrest/) | [garethgeorge/backrest](https://github.com/garethgeorge/backrest) | Web UI and automation for restic backups (Backblaze B2, S3, local, ...) |[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/backrest)](https://artifacthub.io/packages/search?repo=backrest)|
+| [db2rest](db2rest/) | [kdhrubo/db2rest](https://db2rest.com) | Universal REST read/write API for any SQL database with OpenAPI support |[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/db2rest)](https://artifacthub.io/packages/search?repo=db2rest)|
+| [simple-http-logger](simple-http-logger/) | [cycodelabs/simple-http-logger](https://github.com/cycodelabs/simple-http-logger) | Minimal HTTP request logger | [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/simple-http-logger)](https://artifacthub.io/packages/search?repo=simple-http-logger) |
 
 ## Usage
 
