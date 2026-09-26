@@ -4,6 +4,7 @@ Independent Helm v2 application charts, one per top-level directory. No tests or
 
 ## Layout
 
+- `apprise/` — chart for caronc/apprise (Apprise API, notification web service). Notable: fully parameterised `deployment.yaml` (hardened non-root/read-only defaults), claims are created by `templates/pvcs.yaml` from the `persistence.{config,plugin,attach}` values (`enabled`/`existingClaim`/`storageClassName`/`size`, default claim name `<fullname>-<key>`; disabled keys fall back to an `emptyDir`), `/tmp` is an in-memory `emptyDir` (`tmp` value), and `env` is a plain list of Apprise API environment variables. Also has `templates/httproute.yaml` (Gateway API); no HPA, so `replicaCount` is always rendered.
 - `backrest/` — chart for garethgeorge/backrest (restic backup web UI). Notable: PVCs are declared in `templates/pvcs.yaml` and mounted via `volumes`/`volumeMounts` in `values.yaml` referencing hardcoded claim names (`br-data-pvc`, `br-config-pvc`, `br-userdata-pvc`). `storageClassName` defaults to `microk8s-hostpath`.
 - `db2rest/`, `simple-http-logger/` — standard generator-style charts (deployment/service/ingress/hpa/serviceaccount + `_helpers.tpl`).
 
@@ -20,7 +21,7 @@ Independent Helm v2 application charts, one per top-level directory. No tests or
 
 ## Publishing (Artifact Hub)
 
-- Charts are published on Artifact Hub as *Helm OCI* repositories registered per chart: `oci://ghcr.io/hurzelpurzel/{backrest,db2rest,simple-http-logger}` (see README "Publishing to Artifact Hub").
+- Charts are published on Artifact Hub as *Helm OCI* repositories registered per chart: `oci://ghcr.io/hurzelpurzel/{apprise,backrest,db2rest,simple-http-logger}` (see README "Publishing to Artifact Hub").
 - `artifacthub-repo.yml` at the repo root holds `owners` (email must match the Artifact Hub login). Leave `repositoryID` unset until the repo is registered in the control panel, then fill it in to enable the Verified Publisher flag. For OCI repos the file must be pushed via `oras` under the `artifacthub.io` tag.
 - Registry push (with an existing .tgz) is done by `helm push chart.tgz oci://ghcr.io/<owner>` — Helm infers the package basename from the chart name and the tag from the semver `version`, so `version` bumps drive new OCI tags.
 

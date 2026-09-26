@@ -1,0 +1,25 @@
+{{- $root := . -}}
+{{- range $key, $pvc := .Values.persistence }}
+{{- if and $pvc.enabled (not $pvc.existingClaim) }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "apprise.fullname" $root }}-{{ $key }}
+  labels:
+    {{- include "apprise.labels" $root | nindent 4 }}
+  {{- with $pvc.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  accessModes:
+    - {{ $pvc.accessMode }}
+  {{- with $pvc.storageClassName }}
+  storageClassName: {{ . }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ $pvc.size }}
+{{- end }}
+{{- end }}

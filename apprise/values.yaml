@@ -1,0 +1,219 @@
+# Default values for apprise.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+# Apprise API reference: https://appriseit.com/api/deployment/
+
+# Note: with APPRISE_STATEFUL_MODE=simple the configuration lives in files under
+# /config, so more than one replica needs ReadWriteMany claims (or a shared
+# storage class) and an APPRISE_WORKER_COUNT matching the replica count.
+replicaCount: 1
+
+image:
+  repository: caronc/apprise
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "latest"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Automatically mount a ServiceAccount's API credentials?
+  automount: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+
+# Apprise API needs no privileges and writes nothing outside its mounted
+# volumes, so the chart defaults to the hardened setup documented at
+# https://appriseit.com/api/deployment/ . The uid/gid must match the values
+# passed to the container (see PUID/PGID in env below).
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  fsGroup: 1000
+  readOnlyRootFilesystem: true
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+
+service:
+  type: ClusterIP
+  port: 8000
+
+# The port the container listens on (HTTP_PORT in the image, 8000 by default).
+# Change it together with service.port, the ingress or HTTPRoute backend.
+containerPort: 8000
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: apprise.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+  #  - secretName: apprise-tls
+  #    hosts:
+  #      - apprise.local
+
+# Gateway API route. Requires the Gateway API CRDs to be installed in the
+# cluster. parentRefs are gateway names, optionally with a namespace.
+httpRoute:
+  enabled: false
+  parentRefs: []
+  #  - name: gateway
+  #    namespace: apprise
+  hostnames: []
+  #  - apprise.example.com
+  annotations: {}
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      # filters:
+      #   - type: RequestHeaderModifier
+      #     requestHeaderModifier:
+      #       set:
+      #         - name: X-Forwarded-Proto
+      #           value: https
+
+# Environment variables for the Apprise API container.
+# All supported variables are documented at
+# https://appriseit.com/api/reference/environment/ and can be appended here.
+env:
+  - name: APPRISE_STATEFUL_MODE
+    value: simple
+  - name: APPRISE_WORKER_COUNT
+    value: "1"
+  - name: APPRISE_ADMIN
+    value: "y"
+  # - name: TZ
+  #   value: Europe/Berlin
+  # - name: PUID
+  #   value: "1000"
+  # - name: PGID
+  #   value: "1000"
+  # - name: ALLOWED_HOSTS
+  #   value: apprise.example.com
+  # - name: APPRISE_BASE_URL
+  #   value: /apprise
+  # - name: APPRISE_CONFIG_LOCK
+  #   value: "yes"
+  # - name: APPRISE_API_ONLY
+  #   value: "yes"
+  # - name: APPRISE_ALLOW_SERVICES
+  #   value: tgram,ntfy
+  # - name: APPRISE_ATTACH_SIZE
+  #   value: "0"
+  # - name: IPV4_ONLY
+  #   value: "yes"
+  # - name: LOG_LEVEL
+  #   value: WARNING
+  # - name: SECRET_KEY
+  #   valueFrom:
+  #     secretKeyRef:
+  #       name: apprise-django
+  #       key: secret-key
+
+# Persistent volumes backing the container. The chart creates a claim named
+# <fullname>-<key> for every enabled key without existingClaim; with
+# existingClaim set, the named claim is used as is and nothing is created.
+# Disable a key to fall back to an ephemeral emptyDir.
+persistence:
+  # Saved configurations and internal state, mounted at /config
+  config:
+    enabled: true
+    existingClaim: ""
+    annotations: {}
+    # Left empty the cluster default storage class is used,
+    # e.g. microk8s-hostpath
+    storageClassName: ""
+    accessMode: ReadWriteOnce
+    size: 1Gi
+  # Custom plugins, mounted at /plugin
+  plugin:
+    enabled: true
+    existingClaim: ""
+    annotations: {}
+    storageClassName: ""
+    accessMode: ReadWriteOnce
+    size: 100Mi
+  # Uploaded attachments, mounted at /attach
+  attach:
+    enabled: true
+    existingClaim: ""
+    annotations: {}
+    storageClassName: ""
+    accessMode: ReadWriteOnce
+    size: 1Gi
+
+# /tmp holds pids, sockets and temp files of nginx, gunicorn and supervisord,
+# so it has to stay writable while the root filesystem is read-only.
+tmp:
+  medium: Memory
+  sizeLimit: ""
+
+resources: {}
+  # Apprise API needs roughly 180MB of memory with all plugins loaded,
+  # APPRISE_ALLOW_SERVICES cuts that down to ~145MB.
+  # limits:
+  #   cpu: 500m
+  #   memory: 512Mi
+  # requests:
+  #   cpu: 250m
+  #   memory: 128Mi
+
+# Health checks. /status answers 200 when healthy and 417 on a blocking issue.
+# Set a probe to null to drop it from the container.
+livenessProbe:
+  httpGet:
+    path: /status
+    port: http
+  initialDelaySeconds: 20
+  periodSeconds: 30
+  timeoutSeconds: 5
+  failureThreshold: 3
+readinessProbe:
+  httpGet:
+    path: /status
+    port: http
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 3
+  failureThreshold: 3
+
+# Additional volumes on the output Deployment definition.
+volumes: []
+# - name: nginx-htpasswd
+#   secret:
+#     secretName: apprise-htpasswd
+
+# Additional volumeMounts on the output Deployment definition.
+volumeMounts: []
+# - name: nginx-htpasswd
+#   mountPath: /etc/nginx/.htpasswd
+#   readOnly: true
+#   subPath: .htpasswd
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

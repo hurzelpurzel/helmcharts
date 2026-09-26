@@ -1,0 +1,46 @@
+apiVersion: v2
+name: apprise
+home: https://appriseit.com
+sources:
+  - https://github.com/caronc/apprise
+  - https://github.com/caronc/apprise-docs
+description: A Helm chart for Apprise API, a notification web service that pushes to 1000+ services and ships with a web UI
+type: application
+version: 0.2.0
+appVersion: "1.16.0"
+keywords:
+  - apprise
+  - notifications
+  - alerting
+  - messaging
+  - ntfy
+maintainers:
+  - name: Ludger Pottmeier
+    email: ludger.pottmeier@gmail.com
+annotations:
+  licenses: Apache-2.0
+  artifacthub.io/category: streaming-messaging
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/maintainers: |
+    - name: Ludger Pottmeier
+      email: ludger.pottmeier@gmail.com
+  artifacthub.io/links: |
+    - name: Apprise
+      url: https://github.com/caronc/apprise
+    - name: Documentation
+      url: https://appriseit.com/api/
+    - name: Environment Variables
+      url: https://appriseit.com/api/reference/environment/
+    - name: Support
+      url: https://github.com/hurzelpurzel/helmcharts/issues
+  artifacthub.io/changes: |
+    - kind: added
+      description: Initial release of the apprise Helm chart
+    - kind: added
+      description: Ingress and Gateway API HTTPRoute support
+    - kind: added
+      description: Optional PersistentVolumeClaims for /config, /plugin and /attach
+    - kind: added
+      description: Liveness and readiness probes on /status
+    - kind: added
+      description: Add metadata for Artifact Hub publication

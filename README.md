@@ -6,6 +6,7 @@ Independent Helm v2 application charts, one per top-level directory. No chart de
 
 | Chart | App | Description |
 |-------|-----|-------------|
+| [apprise](apprise/) | [caronc/apprise](https://github.com/caronc/apprise) | Notification web service pushing to 1000+ services, with optional web UI |
 | [backrest](backrest/) | [garethgeorge/backrest](https://github.com/garethgeorge/backrest) | Web UI and automation for restic backups (Backblaze B2, S3, local, ...) |
 | [db2rest](db2rest/) | [kdhrubo/db2rest](https://db2rest.com) | Universal REST read/write API for any SQL database with OpenAPI support |
 | [simple-http-logger](simple-http-logger/) | [cycodelabs/simple-http-logger](https://github.com/cycodelabs/simple-http-logger) | Minimal HTTP request logger |
@@ -52,6 +53,7 @@ Charts are discoverable on [Artifact Hub](https://artifacthub.io). Each chart sh
 The CI workflow pushes every chart to GHCR (`oci://ghcr.io/hurzelpurzel/<chart-name>`, tagged with the chart version). Register each chart in the Artifact Hub control panel (Repositories → Add) with kind *Helm OCI* and URL:
 
 ```
+oci://ghcr.io/hurzelpurzel/apprise
 oci://ghcr.io/hurzelpurzel/backrest
 oci://ghcr.io/hurzelpurzel/db2rest
 oci://ghcr.io/hurzelpurzel/simple-http-logger
@@ -62,7 +64,7 @@ New chart versions are indexed automatically next time Artifact Hub processes th
 To enable the **Verified Publisher** flag, fill the `repositoryID` field in `artifacthub-repo.yml` from the Artifact Hub control panel (one ID per repository) and push the file to each chart's OCI repository using [oras](https://oras.land) (the `artifacthub.io` tag):
 
 ```sh
-oras push ghcr.io/hurzelpurzel/backrest:artifacthub.io \
+oras push ghcr.io/hurzelpurzel/apprise:artifacthub.io \
   --config /dev/null:application/vnd.cncf.artifacthub.config.v1+yaml \
   artifacthub-repo.yml:application/vnd.cncf.artifacthub.repository-metadata.layer.v1.yaml
 ```
