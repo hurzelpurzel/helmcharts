@@ -6,7 +6,7 @@ sources:
   - https://github.com/caronc/apprise-docs
 description: A Helm chart for Apprise API, a notification web service that pushes to 1000+ services and ships with a web UI
 type: application
-version: 0.2.0
+version: 0.2.1
 appVersion: "1.16.0"
 keywords:
   - apprise
@@ -44,3 +44,5 @@ annotations:
       description: Liveness and readiness probes on /status
     - kind: added
       description: Add metadata for Artifact Hub publication
+    - kind: fixed
+      description: Move readOnlyRootFilesystem from podSecurityContext to securityContext, which made the Deployment invalid
